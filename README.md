@@ -1,46 +1,107 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
+# Tooltip Component
 
 ### `npm start`
+개발모드로 앱을 실행합니다.
+실행 된 앱은 웹 브라우저로 [http://localhost:3000](http://localhost:3000)에 접속하여 확인할 수 있습니다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 사용된 라이브러리
+[styled-components@6.1.11](https://styled-components.com/)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+[@types/styled-components@5.1.34](https://www.npmjs.com/package/@types/styled-components)
 
-### `npm test`
+### 사용 이유
+props를 통해 스타일링이 편리하며 가독성이 좋다고 생각하여 사용했습니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 사용법
+툴팁을 띄울 요소(Text, HTMLElement)를 Tooltip 태그로 감싸고, content 속성에 툴팁 내용물(Text, HTMLElement)를 넣어 사용할 수 있습니다.
+```
+<Tooltip content="tooltip">Text</Tooltip>
+```
+```
+<Tooltip
+  content={(<span>tooltip</span>)}>
+    <button>Button</button>
+</Tooltip>
+```
+## 속성
+### 필수 속성
+`content`
+### 선택 속성
+`delay`, `disabled`, `direction`, `customStyle`
 
-### `npm run build`
+`delay`
+-
+delay 속성은 number 타입을 받는 속성입니다.
+delay 속성으로 넘겨준 n이 양수일 때 툴팁을 표시할 요소에 마우스를 올린 후 `n`초가 지나면 툴팁이 나타납니다.
+```
+const n = 1
+...
+<Tooltip
+  content={(<span>tooltip</span>)}
+  delay={n}
+  >
+    <button>Button</button>
+</Tooltip>
+```
+delay 속성으로 넘겨준 n이 음수일 때 툴팁을 표시할 요소에 마우스를 내린 후 'n'초가 지나면 툴팁이 사라집니다.
+```
+const n = -1
+...
+<Tooltip
+  content={(<span>tooltip</span>)}
+  delay={n}
+  >
+    <button>Button</button>
+</Tooltip>
+```
+`disabled`
+-
+disabled 속성은 boolean 타입을 받는 속성입니다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+disabled 속성으로 넘겨준 state 값에 따라 툴팁의 작동여부를 정합니다.
+```
+const [disabled, setDisabled] = useState(false);
+...
+<Tooltip
+  content={(<span>tooltip</span>)}
+  disabled={disabled}
+  >
+    <button
+      onClick={() => setDisabled(!disabled)}
+      >
+        Button
+      </button>
+</Tooltip>
+```
+`direction`
+-
+direction 속성은 'top' | 'left' | 'right' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight' | 'leftTop' | 'leftBottom' | 'rightTop' | 'rightBottom' 값을 받습니다.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+선택적 속성으로 기본 값은 'top'입니다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+direction 속성으로 넘겨준 값에 따라 툴팁의 위치를 지정합니다.
+```
+const position = 'leftTop';
+...
+<Tooltip
+  content={(<span>tooltip</span>)}
+  direction={position}
+  >
+    <button>Button</button>
+</Tooltip>
+```
+`customStyle`
+-
+customStyle 속성은 CSSProperties 값을 받습니다.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+customStyle 속성으로 넘겨준 값에 따라 툴팁의 디자인을 그립니다.
+```
+const customCSS = {backgroundColor:'lightskyblue'};
+...
+<Tooltip
+  content={(<span>tooltip</span>)}
+  customStyle={customCSS}
+  >
+    <button>Button</button>
+</Tooltip>
+```
